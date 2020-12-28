@@ -17,6 +17,10 @@ public class CharacterResult {
         return characters.get(index);
     }
 
+    public int getCharactersSize() {
+        return characters.size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -73,4 +73,48 @@ public class ReportResult {
     public String getPlanetName() {
         return planetName;
     }
+
+    public static final class Builder {
+        private Long filmId;
+        private String filmName;
+        private Long characterId;
+        private String characterName;
+        private Long planetId;
+        private String planetName;
+        private Report report;
+
+        public Builder filmId(Long filmId) {
+            this.filmId = filmId;
+            return this;
+        }
+
+        public Builder filmName(String filmName) {
+            this.filmName = filmName;
+            return this;
+        }
+
+        public Builder characterId(Long characterId) {
+            this.characterId = characterId;
+            return this;
+        }
+
+        public Builder characterName(String characterName) {
+            this.characterName = characterName;
+            return this;
+        }
+
+        public Builder planetId(Long planetId) {
+            this.planetId = planetId;
+            return this;
+        }
+
+        public Builder planetName(String planetName) {
+            this.planetName = planetName;
+            return this;
+        }
+
+        public ReportResult build() {
+            return new ReportResult(filmId, filmName, characterId, characterName, planetId, planetName);
+        }
+    }
 }
