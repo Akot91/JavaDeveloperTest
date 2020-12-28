@@ -17,6 +17,10 @@ public class PlanetResult {
         return planets.get(index);
     }
 
+    public int getPlanetsSize() {
+        return planets.size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

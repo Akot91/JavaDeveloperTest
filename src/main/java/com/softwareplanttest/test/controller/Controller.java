@@ -7,6 +7,7 @@ import com.softwareplanttest.test.model.ReportResult;
 import com.softwareplanttest.test.service.DatabaseService;
 import com.softwareplanttest.test.service.ReportCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class Controller {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{report_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createReport(@PathVariable Long report_id, @RequestBody ReportQuery reportQuery) {
         ReportResult result = reportCreator.prepareReport(reportQuery);
         Report report = new Report(report_id, reportQuery.getQueryCriteriaCharacterPhrase(), reportQuery.getQueryCriteriaPlanetName(), result);

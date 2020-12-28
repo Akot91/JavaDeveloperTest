@@ -3,10 +3,13 @@ package com.softwareplanttest.test.service;
 import com.softwareplanttest.test.client.SWAPIClient;
 import com.softwareplanttest.test.domain.*;
 import com.softwareplanttest.test.domain.Character;
+import com.softwareplanttest.test.exception.NoCharacterExists;
+import com.softwareplanttest.test.exception.NoFilmExists;
+import com.softwareplanttest.test.exception.NoResidentsException;
+import com.softwareplanttest.test.exception.PlanetNotFoundException;
 import com.softwareplanttest.test.mapper.CharacterMapper;
 import com.softwareplanttest.test.mapper.FilmMapper;
 import com.softwareplanttest.test.mapper.PlanetMapper;
-import com.softwareplanttest.test.model.Report;
 import com.softwareplanttest.test.model.ReportQuery;
 import com.softwareplanttest.test.model.ReportResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,7 @@ import java.util.List;
 public class ReportCreator {
 
     @Autowired
-    private SWAPIClient cLient;
+    private SWAPIClient client;
 
     @Autowired
     private PlanetMapper planetMapper;
@@ -40,41 +43,57 @@ public class ReportCreator {
         Film film = findFilm(character.getFilms());
         Long filmId = getIdFromUrl(film.getUrl());
 
-        return new ReportResult(
-                filmId,
-                film.getTitle(),
-                characterId,
-                character.getName(),
-                planetId,
-                planet.getName()
-        );
+        return new ReportResult.Builder()
+                .filmId(filmId)
+                .filmName(film.getTitle())
+                .characterId(characterId)
+                .characterName(character.getName())
+                .planetId(planetId)
+                .planetName(planet.getName())
+                .build();
     }
 
     private Planet findPlanet(String planetName) {
-        PlanetResultDto planetsDto = cLient.getPlanet(planetName);
+        PlanetResultDto planetsDto = client.getPlanet(planetName);
         PlanetResult planetResult = planetMapper.mapToPlanetResult(planetsDto);
-        Planet result = planetResult.getPlanet(0);
+        Planet result;
+        if (planetResult.getPlanetsSize() == 0) {
+            throw new PlanetNotFoundException("There are no planets called " + planetName);
+        } else {
+            result = planetResult.getPlanet(0);
+        }
         return result;
     }
 
     private Character findCharacter(List<String> residents, String characterName) {
         List<Character> residentsResult = new ArrayList<>();
-        for (String resident : residents) {
-            residentsResult.add(characterMapper.mapToCharacter(cLient.getCharacterByUrl(resident)));
-        }
-        CharacterResult searchedCharacterResult = characterMapper.mapToCharacterResult(cLient.getCharacterBySearch(characterName));
-        Character searchedCharacter = searchedCharacterResult.getCharacter(0);
-        for (Character resident : residentsResult) {
-            if (resident.equals(searchedCharacter)) {
-                return resident;
+        if (residents.size() == 0) {
+            throw new NoResidentsException("There are no residents on this planet or this planet does'n exists!");
+        } else {
+            for (String resident : residents) {
+                residentsResult.add(characterMapper.mapToCharacter(client.getCharacterByUrl(resident)));
             }
         }
-        return null;
+        CharacterResult searchedCharacterResult = characterMapper.mapToCharacterResult(client.getCharacterBySearch(characterName));
+        if (searchedCharacterResult.getCharactersSize() == 0) {
+            throw new NoCharacterExists("There are no character called " + characterName);
+        }
+        Character searchedCharacter = searchedCharacterResult.getCharacter(0);
+        Character result = new Character();
+        for (Character resident : residentsResult) {
+            if (resident.equals(searchedCharacter)) {
+                result = resident;
+                break;
+            }
+        }
+        return result;
     }
 
     private Film findFilm(List<String> films) {
-        Film filmResult = filmMapper.mapToFilm(cLient.getFilm(films.get(0)));
-        return filmResult;
+        if (films.size() == 0) {
+            throw new NoFilmExists("No films found for this query");
+        }
+        return filmMapper.mapToFilm(client.getFilm(films.get(0)));
     }
 
     private Long getIdFromUrl(String url) {
