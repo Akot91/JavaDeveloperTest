@@ -22,8 +22,8 @@ public class DatabaseService {
         return reportRepository.findById(id);
     }
 
-    public Report saveNewReport(Report report) {
-        return reportRepository.save(report);
+    public void saveNewReport(Report report) {
+        reportRepository.save(report);
     }
 
     public void deleteAll() {

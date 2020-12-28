@@ -20,52 +20,48 @@ public class SWAPIClient {
     private ApiConfiguration apiConfiguration;
 
     public CharacterResultDto getCharacterBySearch(String search) {
-        return Optional.ofNullable(restTemplate.getForObject(getCharacterBySearchUrl(search), CharacterResultDto.class)).orElseGet(() -> new CharacterResultDto());
+        return Optional.ofNullable(restTemplate.getForObject(getCharacterBySearchUrl(search), CharacterResultDto.class)).orElseGet(CharacterResultDto::new);
     }
 
     public CharacterDto getCharacterByUrl(String forwardedUrl) {
-        return Optional.ofNullable(restTemplate.getForObject(getCharacterUrl(forwardedUrl), CharacterDto.class)).orElseGet(() -> new CharacterDto());
+        return Optional.ofNullable(restTemplate.getForObject(getCharacterUrl(forwardedUrl), CharacterDto.class)).orElseGet(CharacterDto::new);
     }
 
     public PlanetResultDto getPlanet(String search) {
-        return Optional.ofNullable(restTemplate.getForObject(getPlanetUrl(search), PlanetResultDto.class)).orElseGet(() -> new PlanetResultDto());
+        return Optional.ofNullable(restTemplate.getForObject(getPlanetUrl(search), PlanetResultDto.class)).orElseGet(PlanetResultDto::new);
     }
 
     public FilmDto getFilm(String forwardedUrl) {
-        return Optional.ofNullable(restTemplate.getForObject(getFilmUrl(forwardedUrl), FilmDto.class)).orElseGet(() -> new FilmDto());
+        return Optional.ofNullable(restTemplate.getForObject(getFilmUrl(forwardedUrl), FilmDto.class)).orElseGet(FilmDto::new);
     }
 
     private URI getFilmUrl(String forwardedUrl) {
-        URI url = UriComponentsBuilder.fromHttpUrl(forwardedUrl)
+        return UriComponentsBuilder.fromHttpUrl(forwardedUrl)
                 .build()
                 .encode()
                 .toUri();
-        return url;
     }
 
     private URI getPlanetUrl(String search) {
-        URI url = UriComponentsBuilder.fromHttpUrl(apiConfiguration.getPlanetsApiUrl())
+        return UriComponentsBuilder.fromHttpUrl(apiConfiguration.getPlanetsApiUrl())
                 .queryParam("search", search)
                 .build()
                 .encode()
                 .toUri();
-        return url;
     }
 
     private URI getCharacterBySearchUrl(String search) {
-        URI url = UriComponentsBuilder.fromHttpUrl(apiConfiguration.getPeopleApiUrl())
+        return UriComponentsBuilder.fromHttpUrl(apiConfiguration.getPeopleApiUrl())
                 .queryParam("search", search)
                 .build()
                 .encode()
                 .toUri();
-        return url;
     }
 
     private URI getCharacterUrl(String forwardedUrl) {
-        URI url = UriComponentsBuilder.fromHttpUrl(forwardedUrl)
+        return UriComponentsBuilder.fromHttpUrl(forwardedUrl)
                 .build()
                 .encode()
                 .toUri();
-        return url;
     }
 }
