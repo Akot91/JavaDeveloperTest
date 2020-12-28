@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FilmMapper {
 
-    public Film mapToFilm(FilmDto filmDto) {
+    public Film mapToFilm(final FilmDto filmDto) {
         return new Film(filmDto.getTitle(), filmDto.getUrl());
     }
 

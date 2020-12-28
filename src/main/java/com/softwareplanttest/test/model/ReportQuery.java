@@ -10,21 +10,9 @@ public class ReportQuery {
     @JsonProperty(value = "query_criteria_planet_name")
     private final String queryCriteriaPlanetName;
 
-    public ReportQuery(final String queryCriteriaCharacterPhrase, final String queryCriteriaPlanetName) {
-        if (queryCriteriaCharacterPhrase == null) {
-            throw new NullPointerException();
-        } else  if (queryCriteriaCharacterPhrase.length() == 0) {
-            throw new IllegalArgumentException();
-        } else {
-            this.queryCriteriaCharacterPhrase = queryCriteriaCharacterPhrase;
-        }
-        if (queryCriteriaPlanetName == null) {
-            throw new NullPointerException();
-        } else if (queryCriteriaPlanetName.length() == 0) {
-            throw new IllegalArgumentException();
-        } else {
-            this.queryCriteriaPlanetName = queryCriteriaPlanetName;
-        }
+    public ReportQuery(String queryCriteriaCharacterPhrase, String queryCriteriaPlanetName) {
+        this.queryCriteriaCharacterPhrase = queryCriteriaCharacterPhrase;
+        this.queryCriteriaPlanetName = queryCriteriaPlanetName;
     }
 
     public String getQueryCriteriaCharacterPhrase() {

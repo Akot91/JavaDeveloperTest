@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 @Component
 public class PlanetMapper {
 
-    public Planet mapToPlanet(PlanetDto planetDto) {
+    public Planet mapToPlanet(final PlanetDto planetDto) {
         return new Planet(planetDto.getName(), planetDto.getUrl(), planetDto.getResidents());
     }
 
-    public PlanetResult mapToPlanetResult(PlanetResultDto planetResultDto) {
+    public PlanetResult mapToPlanetResult(final PlanetResultDto planetResultDto) {
         return new PlanetResult(planetResultDto.getPlanets()
                 .stream()
                 .map(planetDto -> mapToPlanet(planetDto))

@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 @Component
 public class CharacterMapper {
 
-    public Character mapToCharacter(CharacterDto characterDto) {
+    public Character mapToCharacter(final CharacterDto characterDto) {
         return new Character(characterDto.getName(), characterDto.getUrl(), characterDto.getFilms());
     }
 
-    public CharacterResult mapToCharacterResult(CharacterResultDto characterResultDto) {
+    public CharacterResult mapToCharacterResult(final CharacterResultDto characterResultDto) {
         return new CharacterResult(characterResultDto.getCharacters()
                 .stream()
                 .map(characterDto -> mapToCharacter(characterDto))

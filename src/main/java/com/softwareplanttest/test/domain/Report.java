@@ -1,4 +1,4 @@
-package com.softwareplanttest.test.model;
+package com.softwareplanttest.test.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

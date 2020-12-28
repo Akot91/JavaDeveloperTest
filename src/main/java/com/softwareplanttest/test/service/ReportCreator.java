@@ -11,7 +11,7 @@ import com.softwareplanttest.test.mapper.CharacterMapper;
 import com.softwareplanttest.test.mapper.FilmMapper;
 import com.softwareplanttest.test.mapper.PlanetMapper;
 import com.softwareplanttest.test.model.ReportQuery;
-import com.softwareplanttest.test.model.ReportResult;
+import com.softwareplanttest.test.domain.ReportResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

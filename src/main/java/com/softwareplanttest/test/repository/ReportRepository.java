@@ -1,6 +1,6 @@
 package com.softwareplanttest.test.repository;
 
-import com.softwareplanttest.test.model.Report;
+import com.softwareplanttest.test.domain.Report;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

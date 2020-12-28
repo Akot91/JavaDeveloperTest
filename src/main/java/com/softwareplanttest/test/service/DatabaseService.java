@@ -1,6 +1,6 @@
 package com.softwareplanttest.test.service;
 
-import com.softwareplanttest.test.model.Report;
+import com.softwareplanttest.test.domain.Report;
 import com.softwareplanttest.test.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

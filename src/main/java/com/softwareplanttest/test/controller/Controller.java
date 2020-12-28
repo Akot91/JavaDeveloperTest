@@ -1,9 +1,11 @@
 package com.softwareplanttest.test.controller;
 
+import com.softwareplanttest.test.domain.ReportDto;
 import com.softwareplanttest.test.exception.NotFoundException;
-import com.softwareplanttest.test.model.Report;
+import com.softwareplanttest.test.domain.Report;
+import com.softwareplanttest.test.mapper.ReportMapper;
 import com.softwareplanttest.test.model.ReportQuery;
-import com.softwareplanttest.test.model.ReportResult;
+import com.softwareplanttest.test.domain.ReportResult;
 import com.softwareplanttest.test.service.DatabaseService;
 import com.softwareplanttest.test.service.ReportCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class Controller {
     @Autowired
     private ReportCreator reportCreator;
 
+    @Autowired
+    private ReportMapper reportMapper;
+
     @RequestMapping(method = RequestMethod.DELETE)
     public void deleteAllReports() {
         databaseService.deleteAll();
@@ -34,13 +39,13 @@ public class Controller {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Report> getReports() {
-        return databaseService.getAllReports();
+    public List<ReportDto> getReports() {
+        return reportMapper.mapToReportDtoList(databaseService.getAllReports());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{report_id}")
-    public Report getReport(@PathVariable Long report_id) throws NotFoundException {
-        return databaseService.getReport(report_id).orElseThrow(NotFoundException::new);
+    public ReportDto getReport(@PathVariable Long report_id) throws NotFoundException {
+        return reportMapper.mapToReportDto(databaseService.getReport(report_id).orElseThrow(NotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{report_id}")
