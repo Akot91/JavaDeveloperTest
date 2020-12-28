@@ -18,11 +18,11 @@ public class DatabaseService {
         return reportRepository.findAll();
     }
 
-    public Optional<Report> getReport(Long id) {
+    public Optional<Report> getReport(final Long id) {
         return reportRepository.findById(id);
     }
 
-    public void saveNewReport(Report report) {
+    public void saveNewReport(final Report report) {
         reportRepository.save(report);
     }
 
@@ -30,7 +30,7 @@ public class DatabaseService {
         reportRepository.deleteAll();
     }
 
-    public void deleteReport(Long id) {
+    public void deleteReport(final Long id) {
         reportRepository.deleteById(id);
     }
 
