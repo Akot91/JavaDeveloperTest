@@ -4,6 +4,7 @@ import com.softwareplanttest.test.config.ApiConfiguration;
 import com.softwareplanttest.test.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,19 +21,35 @@ public class SWAPIClient {
     private ApiConfiguration apiConfiguration;
 
     public CharacterResultDto getCharacterBySearch(String search) {
-        return Optional.ofNullable(restTemplate.getForObject(getCharacterBySearchUrl(search), CharacterResultDto.class)).orElseGet(CharacterResultDto::new);
+        try {
+            return Optional.ofNullable(restTemplate.getForObject(getCharacterBySearchUrl(search), CharacterResultDto.class)).orElseGet(CharacterResultDto::new);
+        } catch (RestClientException e) {
+            return new CharacterResultDto();
+        }
     }
 
     public CharacterDto getCharacterByUrl(String forwardedUrl) {
-        return Optional.ofNullable(restTemplate.getForObject(getCharacterUrl(forwardedUrl), CharacterDto.class)).orElseGet(CharacterDto::new);
+        try {
+            return Optional.ofNullable(restTemplate.getForObject(getCharacterUrl(forwardedUrl), CharacterDto.class)).orElseGet(CharacterDto::new);
+        } catch (RestClientException e) {
+            return new CharacterDto();
+        }
     }
 
-    public PlanetResultDto getPlanet(String search) {
-        return Optional.ofNullable(restTemplate.getForObject(getPlanetUrl(search), PlanetResultDto.class)).orElseGet(PlanetResultDto::new);
+    public PlanetResultDto getPlanetBySearch(String search) {
+        try {
+            return Optional.ofNullable(restTemplate.getForObject(getPlanetUrl(search), PlanetResultDto.class)).orElseGet(PlanetResultDto::new);
+        } catch (RestClientException e) {
+            return new PlanetResultDto();
+        }
     }
 
-    public FilmDto getFilm(String forwardedUrl) {
-        return Optional.ofNullable(restTemplate.getForObject(getFilmUrl(forwardedUrl), FilmDto.class)).orElseGet(FilmDto::new);
+    public FilmDto getFilmByUrl(String forwardedUrl) {
+        try {
+            return Optional.ofNullable(restTemplate.getForObject(getFilmUrl(forwardedUrl), FilmDto.class)).orElseGet(FilmDto::new);
+        } catch (RestClientException e) {
+            return new FilmDto();
+        }
     }
 
     private URI getFilmUrl(String forwardedUrl) {

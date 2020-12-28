@@ -54,7 +54,7 @@ public class ReportCreator {
     }
 
     private Planet findPlanet(String planetName) {
-        PlanetResultDto planetsDto = client.getPlanet(planetName);
+        PlanetResultDto planetsDto = client.getPlanetBySearch(planetName);
         PlanetResult planetResult = planetMapper.mapToPlanetResult(planetsDto);
         Planet result;
         if (planetResult.getPlanetsSize() == 0) {
@@ -93,7 +93,7 @@ public class ReportCreator {
         if (films.size() == 0) {
             throw new NoFilmExists("No films found for this query");
         }
-        return filmMapper.mapToFilm(client.getFilm(films.get(0)));
+        return filmMapper.mapToFilm(client.getFilmByUrl(films.get(0)));
     }
 
     private Long getIdFromUrl(String url) {
