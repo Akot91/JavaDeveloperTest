@@ -10,6 +10,7 @@ import com.softwareplanttest.test.service.ReportService;
 import com.softwareplanttest.test.service.ReportCreator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,37 +28,19 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@RunWith(SpringRunner.class)
-//@WebMvcTest(ReportController.class)
+@RunWith(SpringRunner.class)
+@WebMvcTest(ReportController.class)
 public class ReportControllerTestSuite {
 
-   /* @Autowired
+    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private ReportService reportService;
 
-    @MockBean
-    private ReportMapper reportMapper;
-
-    @MockBean
-    private ReportCreator reportCreator;
-
     @Test
     public void shouldGetAllReports() throws Exception {
         //Given
-        List<Report> reports = new ArrayList<>();
-        ReportResult reportResult = new ReportResult.Builder()
-                .filmId(1L)
-                .filmName("testFilmName")
-                .characterId(2L)
-                .characterName("testCharacterName")
-                .planetId(3L)
-                .planetName("testPlanetName")
-                .build();
-
-        reports.add(new Report(1L, "testCharacterPharse", "testPlanetName",reportResult));
-
         List<ReportDto> reportDtos = new ArrayList<>();
         ReportResultDto reportResultDto = new ReportResultDto.Builder()
                 .filmId(1L)
@@ -70,9 +53,7 @@ public class ReportControllerTestSuite {
 
         reportDtos.add(new ReportDto(1L, "testCharacterPharse", "testPlanetName",reportResultDto));
 
-        when(reportService.getAll()).thenReturn(reports);
-        when(reportMapper.mapToReportDtoList(reports)).thenReturn(reportDtos);
-        when(reportCreator.prepareReport(new ReportQuery("testCharacterPharse", "testPlanetName"))).thenReturn(reportResult);
+        when(reportService.getAll()).thenReturn(reportDtos);
 
         //When Then
         mockMvc.perform(get("/reports").contentType(MediaType.APPLICATION_JSON))
@@ -92,16 +73,6 @@ public class ReportControllerTestSuite {
     @Test
     public void shouldGetReport() throws Exception {
         //Given
-        ReportResult reportResult = new ReportResult.Builder()
-                .filmId(1L)
-                .filmName("testFilmName2")
-                .characterId(2L)
-                .characterName("testCharacterName2")
-                .planetId(3L)
-                .planetName("testPlanetName2")
-                .build();
-        Report report = new Report(1L, "testCharacterPharse", "testPlanetName",reportResult);
-
         ReportResultDto reportResultDto = new ReportResultDto.Builder()
                 .filmId(1L)
                 .filmName("testFilmName2")
@@ -112,9 +83,7 @@ public class ReportControllerTestSuite {
                 .build();
         ReportDto reportDto = new ReportDto(1L, "testCharacterPharse", "testPlanetName",reportResultDto);
 
-        when(reportService.get(1L)).thenReturn(Optional.of(report));
-        when(reportMapper.mapToReportDto(report)).thenReturn(reportDto);
-        when(reportCreator.prepareReport(new ReportQuery("testCharacterPharse", "testPlanetName"))).thenReturn(reportResult);
+        when(reportService.get(1L)).thenReturn(Optional.of(reportDto));
 
         //When Then
         mockMvc.perform(get("/reports/1").contentType(MediaType.APPLICATION_JSON))
@@ -129,13 +98,4 @@ public class ReportControllerTestSuite {
                 .andExpect(jsonPath("$.reportResult.planetId", is(3)))
                 .andExpect(jsonPath("$.reportResult.planetName", is("testPlanetName2")));
     }
-
-    @Test
-    public void shouldSaveReport() {
-        //Given
-
-        //When
-
-        //Then
-    }*/
 }
