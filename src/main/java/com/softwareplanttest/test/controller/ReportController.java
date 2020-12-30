@@ -38,7 +38,7 @@ public class ReportController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{reportId}")
-    public Optional<ReportDto> get(@PathVariable Long reportId) {
+    public ReportDto get(@PathVariable Long reportId) {
         return reportService.get(reportId);
     }
 
