@@ -1,9 +1,9 @@
 package com.softwareplanttest.test.mapper;
 
 import com.softwareplanttest.test.domain.Report;
-import com.softwareplanttest.test.domain.ReportDto;
+import com.softwareplanttest.test.dto.ReportDto;
 import com.softwareplanttest.test.domain.ReportResult;
-import com.softwareplanttest.test.domain.ReportResultDto;
+import com.softwareplanttest.test.dto.ReportResultDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

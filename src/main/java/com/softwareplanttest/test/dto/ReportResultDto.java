@@ -1,6 +1,9 @@
-package com.softwareplanttest.test.domain;
+package com.softwareplanttest.test.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ReportResultDto {
+
+    @JsonIgnore
     private Long id;
 
     private Long filmId;

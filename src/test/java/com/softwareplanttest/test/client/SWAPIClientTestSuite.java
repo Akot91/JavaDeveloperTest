@@ -1,7 +1,10 @@
 package com.softwareplanttest.test.client;
 
 import com.softwareplanttest.test.config.ApiConfiguration;
-import com.softwareplanttest.test.domain.*;
+import com.softwareplanttest.test.dto.CharacterDto;
+import com.softwareplanttest.test.dto.CharacterResultDto;
+import com.softwareplanttest.test.dto.PlanetDto;
+import com.softwareplanttest.test.dto.PlanetResultDto;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +54,7 @@ public class SWAPIClientTestSuite {
         when(restTemplate.getForObject(uri, PlanetResultDto.class)).thenReturn(planetResultDto);
 
         //When
-        PlanetResultDto result = testee.getPlanetBySearch("Alderaan");
+        PlanetResultDto result = testee.getPlanetByName("Alderaan");
 
         //Then
         Assert.assertEquals(1, result.getPlanets().size());
@@ -72,7 +75,7 @@ public class SWAPIClientTestSuite {
         when(restTemplate.getForObject(uri, CharacterResultDto.class)).thenReturn(characterResultDto);
 
         //When
-        CharacterResultDto result = testee.getCharacterBySearch("Luke");
+        CharacterResultDto result = testee.getCharacterByName("Luke");
 
         //Then
         Assert.assertEquals(1, result.getCharacters().size());

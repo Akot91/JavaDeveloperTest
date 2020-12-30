@@ -1,4 +1,4 @@
-package com.softwareplanttest.test.domain;
+package com.softwareplanttest.test.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,5 +19,13 @@ public class PlanetResultDto {
 
     public List<PlanetDto> getPlanets() {
         return planets;
+    }
+
+    public int getPlanetsSize() {
+        return planets.size();
+    }
+
+    public PlanetDto getPlanet(int index) {
+        return planets.get(index);
     }
 }

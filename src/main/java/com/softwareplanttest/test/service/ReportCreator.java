@@ -1,15 +1,10 @@
 package com.softwareplanttest.test.service;
 
 import com.softwareplanttest.test.client.SWAPIClient;
-import com.softwareplanttest.test.domain.*;
-import com.softwareplanttest.test.domain.Character;
-import com.softwareplanttest.test.exception.NoCharacterExists;
-import com.softwareplanttest.test.exception.NoFilmExists;
-import com.softwareplanttest.test.exception.NoResidentsException;
+import com.softwareplanttest.test.dto.*;
+import com.softwareplanttest.test.exception.FilmNotFoundException;
+import com.softwareplanttest.test.exception.ResidentsNotFoundException;
 import com.softwareplanttest.test.exception.PlanetNotFoundException;
-import com.softwareplanttest.test.mapper.CharacterMapper;
-import com.softwareplanttest.test.mapper.FilmMapper;
-import com.softwareplanttest.test.mapper.PlanetMapper;
 import com.softwareplanttest.test.model.ReportQuery;
 import com.softwareplanttest.test.domain.ReportResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,25 +17,16 @@ import java.util.List;
 public class ReportCreator {
 
     @Autowired
-    private SWAPIClient client;
-
-    @Autowired
-    private PlanetMapper planetMapper;
-    
-    @Autowired
-    private CharacterMapper characterMapper;
-
-    @Autowired
-    private FilmMapper filmMapper;
+    private SWAPIClient SWAPIclient;
 
     public ReportResult prepareReport(ReportQuery reportQuery) {
-        Planet planet = findPlanet(reportQuery.getQueryCriteriaPlanetName());
+        PlanetDto planet = findPlanet(reportQuery.getQueryCriteriaPlanetName());
         Long planetId = getIdFromUrl(planet.getUrl());
 
-        Character character = findCharacter(planet.getResidents(), reportQuery.getQueryCriteriaCharacterPhrase());
+        CharacterDto character = findCharacter(planet.getResidents(), reportQuery.getQueryCriteriaCharacterPhrase());
         Long characterId = getIdFromUrl(character.getUrl());
 
-        Film film = findFilm(character.getFilms());
+        FilmDto film = findFilm(character.getFilms());
         Long filmId = getIdFromUrl(film.getUrl());
 
         return new ReportResult.Builder()
@@ -53,34 +39,33 @@ public class ReportCreator {
                 .build();
     }
 
-    private Planet findPlanet(String planetName) {
-        PlanetResultDto planetsDto = client.getPlanetBySearch(planetName);
-        PlanetResult planetResult = planetMapper.mapToPlanetResult(planetsDto);
-        Planet result;
-        if (planetResult.getPlanetsSize() == 0) {
-            throw new PlanetNotFoundException("There are no planets called " + planetName);
+    private PlanetDto findPlanet(String planetName) {
+        PlanetResultDto planetsDto = SWAPIclient.getPlanetByName(planetName);
+        PlanetDto result;
+        if (planetsDto.getPlanetsSize() == 0) {
+            throw new PlanetNotFoundException(planetName);
         } else {
-            result = planetResult.getPlanet(0);
+            result = planetsDto.getPlanet(0);
         }
         return result;
     }
 
-    private Character findCharacter(List<String> residents, String characterName) {
-        List<Character> residentsResult = new ArrayList<>();
+    private CharacterDto findCharacter(List<String> residents, String characterName) {
+        List<CharacterDto> residentsResult = new ArrayList<>();
         if (residents.size() == 0) {
-            throw new NoResidentsException("There are no residents on this planet or this planet does'n exists!");
+            throw new ResidentsNotFoundException(characterName);
         } else {
             for (String resident : residents) {
-                residentsResult.add(characterMapper.mapToCharacter(client.getCharacterByUrl(resident)));
+                residentsResult.add(SWAPIclient.getCharacterByUrl(resident));
             }
         }
-        CharacterResult searchedCharacterResult = characterMapper.mapToCharacterResult(client.getCharacterBySearch(characterName));
+        CharacterResultDto searchedCharacterResult = SWAPIclient.getCharacterByName(characterName);
         if (searchedCharacterResult.getCharactersSize() == 0) {
-            throw new NoCharacterExists("There are no character called " + characterName);
+            throw new ResidentsNotFoundException(characterName);
         }
-        Character searchedCharacter = searchedCharacterResult.getCharacter(0);
-        Character result = new Character();
-        for (Character resident : residentsResult) {
+        CharacterDto searchedCharacter = searchedCharacterResult.getCharacter(0);
+        CharacterDto result = new CharacterDto();
+        for (CharacterDto resident : residentsResult) {
             if (resident.equals(searchedCharacter)) {
                 result = resident;
                 break;
@@ -89,11 +74,11 @@ public class ReportCreator {
         return result;
     }
 
-    private Film findFilm(List<String> films) {
+    private FilmDto findFilm(List<String> films) {
         if (films.size() == 0) {
-            throw new NoFilmExists("No films found for this query");
+            throw new FilmNotFoundException("No films found for this query");
         }
-        return filmMapper.mapToFilm(client.getFilmByUrl(films.get(0)));
+        return SWAPIclient.getFilmByUrl(films.get(0));
     }
 
     private Long getIdFromUrl(String url) {
