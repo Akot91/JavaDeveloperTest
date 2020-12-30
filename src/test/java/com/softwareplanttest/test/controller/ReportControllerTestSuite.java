@@ -27,11 +27,11 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(ReportController.class)
+//@RunWith(SpringRunner.class)
+//@WebMvcTest(ReportController.class)
 public class ReportControllerTestSuite {
 
-    @Autowired
+   /* @Autowired
     private MockMvc mockMvc;
 
     @MockBean
@@ -137,5 +137,5 @@ public class ReportControllerTestSuite {
         //When
 
         //Then
-    }
+    }*/
 }

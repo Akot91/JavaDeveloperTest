@@ -35,8 +35,7 @@ public class SWAPIClientTestSuite {
 
     @Before
     public void init() {
-        when(apiConfiguration.getPeopleApiUrl()).thenReturn("https://testpeople.com/");
-        when(apiConfiguration.getPlanetsApiUrl()).thenReturn("https://testplanets.com/");
+        when(apiConfiguration.getSWAPIHost()).thenReturn("https://testapihost.com/");
     }
 
     @Test
@@ -49,7 +48,7 @@ public class SWAPIClientTestSuite {
         planets.add(planetDto);
         PlanetResultDto planetResultDto = new PlanetResultDto(planets);
 
-        URI uri = new URI("https://testplanets.com/?search=Alderaan");
+        URI uri = new URI("https://testapihost.com/api/planets?search=Alderaan");
 
         when(restTemplate.getForObject(uri, PlanetResultDto.class)).thenReturn(planetResultDto);
 
@@ -70,7 +69,7 @@ public class SWAPIClientTestSuite {
         characterDtos.add(characterDto);
         CharacterResultDto characterResultDto = new CharacterResultDto(characterDtos);
 
-        URI uri = new URI("https://testpeople.com/?search=Luke");
+        URI uri = new URI("https://testapihost.com/api/people?search=Luke");
 
         when(restTemplate.getForObject(uri, CharacterResultDto.class)).thenReturn(characterResultDto);
 
@@ -88,12 +87,12 @@ public class SWAPIClientTestSuite {
         testFilms.add("test1");
         CharacterDto characterDto = new CharacterDto("test_name", "test_url", testFilms);
 
-        URI uri = new URI("https://testpeople.com/");
+        URI uri = new URI("https://testapihost.com/");
 
         when(restTemplate.getForObject(uri, CharacterDto.class)).thenReturn(characterDto);
 
         //When
-        CharacterDto result = testee.getCharacterByUrl("https://testpeople.com/");
+        CharacterDto result = testee.getCharacterByUrl("https://testapihost.com/");
 
         //Then
         Assert.assertEquals("test_name", result.getName());

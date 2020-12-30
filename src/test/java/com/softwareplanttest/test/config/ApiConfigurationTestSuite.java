@@ -15,20 +15,11 @@ public class ApiConfigurationTestSuite {
     private ApiConfiguration testee;
 
     @Test
-    public void shouldReturnPeopleApiUrl() {
+    public void shouldReturnSWAPIUrl() {
         //Given When
-        String result = testee.getPeopleApiUrl();
+        String result = testee.getSWAPIHost();
 
         //Then
-        Assert.assertEquals("http://localhost:8080/api/people/", result);
-    }
-
-    @Test
-    public void shouldReturnPlanetsAPiUrl() {
-        //Given When
-        String result = testee.getPlanetsApiUrl();
-
-        //Then
-        Assert.assertEquals("http://localhost:8080/api/planets/", result);
+        Assert.assertEquals("http://localhost:8080/", result);
     }
 }
