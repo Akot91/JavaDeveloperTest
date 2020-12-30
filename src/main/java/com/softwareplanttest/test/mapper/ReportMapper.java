@@ -3,7 +3,7 @@ package com.softwareplanttest.test.mapper;
 import com.softwareplanttest.test.domain.Report;
 import com.softwareplanttest.test.dto.ReportDto;
 import com.softwareplanttest.test.domain.ReportResult;
-import com.softwareplanttest.test.dto.ReportResultDto;
+import com.softwareplanttest.test.dto.ReportEntryDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,13 +19,13 @@ public class ReportMapper {
                 mapToReportResult(reportDto.getReportResult()));
     }
 
-    public ReportResult mapToReportResult(final ReportResultDto reportResultDto) {
-        return new ReportResult(reportResultDto.getFilmId(),
-                reportResultDto.getFilmName(),
-                reportResultDto.getCharacterId(),
-                reportResultDto.getCharacterName(),
-                reportResultDto.getPlanetId(),
-                reportResultDto.getPlanetName());
+    public ReportResult mapToReportResult(final ReportEntryDto reportEntryDto) {
+        return new ReportResult(reportEntryDto.getFilmId(),
+                reportEntryDto.getFilmName(),
+                reportEntryDto.getCharacterId(),
+                reportEntryDto.getCharacterName(),
+                reportEntryDto.getPlanetId(),
+                reportEntryDto.getPlanetName());
     }
 
     public ReportDto mapToReportDto(final Report report) {
@@ -35,8 +35,8 @@ public class ReportMapper {
                 mapToReportResultDto(report.getReportResult()));
     }
 
-    public ReportResultDto mapToReportResultDto(final ReportResult reportResult) {
-        return new ReportResultDto(reportResult.getFilmId(),
+    public ReportEntryDto mapToReportResultDto(final ReportResult reportResult) {
+        return new ReportEntryDto(reportResult.getFilmId(),
                 reportResult.getFilmName(),
                 reportResult.getCharacterId(),
                 reportResult.getCharacterName(),
@@ -46,13 +46,13 @@ public class ReportMapper {
 
     public List<ReportDto> mapToReportDtoList(final List<Report> reports) {
         return reports.stream()
-                .map(report -> mapToReportDto(report))
+                .map(this::mapToReportDto)
                 .collect(Collectors.toList());
     }
 
     public List<Report> mapToReportList(final List<ReportDto> reportsDto) {
         return reportsDto.stream()
-                .map(reportDto -> mapToReport(reportDto))
+                .map(this::mapToReport)
                 .collect(Collectors.toList());
     }
 }

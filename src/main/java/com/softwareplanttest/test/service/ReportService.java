@@ -34,9 +34,8 @@ public class ReportService {
         return reportMapper.mapToReportDtoList(reportRepository.findAll());
     }
 
-    public Optional<ReportDto> get(final long id) {
-        return Optional.ofNullable(reportMapper.mapToReportDto(reportRepository.findById(id)
-                .orElseThrow(() -> new ReportNotFoundException(id))));
+    public ReportDto get(final long id) {
+        return reportRepository.findById(id).map(reportMapper::mapToReportDto).orElseThrow(() -> new ReportNotFoundException(id));
     }
 
     public void save(final long reportId, final ReportQuery reportQuery) {
@@ -50,9 +49,9 @@ public class ReportService {
     }
 
     public void delete(final long id) {
-        try {
+        if (reportRepository.findById(id).isPresent()) {
             reportRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
+        } else {
             throw new ReportNotFoundException(id);
         }
     }

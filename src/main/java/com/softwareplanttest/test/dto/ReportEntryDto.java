@@ -1,7 +1,7 @@
 package com.softwareplanttest.test.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-public class ReportResultDto {
+public class ReportEntryDto {
 
     @JsonIgnore
     private Long id;
@@ -18,12 +18,10 @@ public class ReportResultDto {
 
     private String planetName;
 
-    private ReportDto report;
-
-    public ReportResultDto() {
+    public ReportEntryDto() {
     }
 
-    public ReportResultDto(Long filmId, String filmName, Long characterId, String characterName, Long planetId, String planetName) {
+    public ReportEntryDto(Long filmId, String filmName, Long characterId, String characterName, Long planetId, String planetName) {
         this.filmId = filmId;
         this.filmName = filmName;
         this.characterId = characterId;
@@ -67,40 +65,39 @@ public class ReportResultDto {
         private String characterName;
         private Long planetId;
         private String planetName;
-        private ReportDto report;
 
-        public ReportResultDto.Builder filmId(Long filmId) {
+        public ReportEntryDto.Builder filmId(Long filmId) {
             this.filmId = filmId;
             return this;
         }
 
-        public ReportResultDto.Builder filmName(String filmName) {
+        public ReportEntryDto.Builder filmName(String filmName) {
             this.filmName = filmName;
             return this;
         }
 
-        public ReportResultDto.Builder characterId(Long characterId) {
+        public ReportEntryDto.Builder characterId(Long characterId) {
             this.characterId = characterId;
             return this;
         }
 
-        public ReportResultDto.Builder characterName(String characterName) {
+        public ReportEntryDto.Builder characterName(String characterName) {
             this.characterName = characterName;
             return this;
         }
 
-        public ReportResultDto.Builder planetId(Long planetId) {
+        public ReportEntryDto.Builder planetId(Long planetId) {
             this.planetId = planetId;
             return this;
         }
 
-        public ReportResultDto.Builder planetName(String planetName) {
+        public ReportEntryDto.Builder planetName(String planetName) {
             this.planetName = planetName;
             return this;
         }
 
-        public ReportResultDto build() {
-            return new ReportResultDto(filmId, filmName, characterId, characterName, planetId, planetName);
+        public ReportEntryDto build() {
+            return new ReportEntryDto(filmId, filmName, characterId, characterName, planetId, planetName);
         }
     }
 }

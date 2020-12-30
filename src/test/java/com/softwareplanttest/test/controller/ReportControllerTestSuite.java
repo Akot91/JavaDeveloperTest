@@ -1,16 +1,10 @@
 package com.softwareplanttest.test.controller;
 
-import com.softwareplanttest.test.domain.Report;
 import com.softwareplanttest.test.dto.ReportDto;
-import com.softwareplanttest.test.dto.ReportResultDto;
-import com.softwareplanttest.test.mapper.ReportMapper;
-import com.softwareplanttest.test.model.ReportQuery;
-import com.softwareplanttest.test.domain.ReportResult;
+import com.softwareplanttest.test.dto.ReportEntryDto;
 import com.softwareplanttest.test.service.ReportService;
-import com.softwareplanttest.test.service.ReportCreator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -42,7 +36,7 @@ public class ReportControllerTestSuite {
     public void shouldGetAllReports() throws Exception {
         //Given
         List<ReportDto> reportDtos = new ArrayList<>();
-        ReportResultDto reportResultDto = new ReportResultDto.Builder()
+        ReportEntryDto reportEntryDto = new ReportEntryDto.Builder()
                 .filmId(1L)
                 .filmName("testFilmName")
                 .characterId(2L)
@@ -51,7 +45,7 @@ public class ReportControllerTestSuite {
                 .planetName("testPlanetName")
                 .build();
 
-        reportDtos.add(new ReportDto(1L, "testCharacterPharse", "testPlanetName",reportResultDto));
+        reportDtos.add(new ReportDto(1L, "testCharacterPharse", "testPlanetName", reportEntryDto));
 
         when(reportService.getAll()).thenReturn(reportDtos);
 
@@ -73,7 +67,7 @@ public class ReportControllerTestSuite {
     @Test
     public void shouldGetReport() throws Exception {
         //Given
-        ReportResultDto reportResultDto = new ReportResultDto.Builder()
+        ReportEntryDto reportEntryDto = new ReportEntryDto.Builder()
                 .filmId(1L)
                 .filmName("testFilmName2")
                 .characterId(2L)
@@ -81,9 +75,9 @@ public class ReportControllerTestSuite {
                 .planetId(3L)
                 .planetName("testPlanetName2")
                 .build();
-        ReportDto reportDto = new ReportDto(1L, "testCharacterPharse", "testPlanetName",reportResultDto);
+        ReportDto reportDto = new ReportDto(1L, "testCharacterPharse", "testPlanetName", reportEntryDto);
 
-        when(reportService.get(1L)).thenReturn(Optional.of(reportDto));
+        when(reportService.get(1L)).thenReturn(reportDto);
 
         //When Then
         mockMvc.perform(get("/reports/1").contentType(MediaType.APPLICATION_JSON))

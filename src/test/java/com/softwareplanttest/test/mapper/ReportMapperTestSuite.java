@@ -3,7 +3,7 @@ package com.softwareplanttest.test.mapper;
 import com.softwareplanttest.test.domain.Report;
 import com.softwareplanttest.test.dto.ReportDto;
 import com.softwareplanttest.test.domain.ReportResult;
-import com.softwareplanttest.test.dto.ReportResultDto;
+import com.softwareplanttest.test.dto.ReportEntryDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,13 +24,13 @@ public class ReportMapperTestSuite {
     @Test
     public void shouldReturnReport() {
         //Given
-        ReportResultDto reportResultDto = new ReportResultDto(1L,
+        ReportEntryDto reportEntryDto = new ReportEntryDto(1L,
                 "testFilm",
                 1L,
                 "testCharacter",
                 1L,
                 "testPlanet");
-        ReportDto reportDto = new ReportDto(1L, "testCharacterCriteria", "testPlanetCriteria", reportResultDto);
+        ReportDto reportDto = new ReportDto(1L, "testCharacterCriteria", "testPlanetCriteria", reportEntryDto);
 
         //When
         Report result = testee.mapToReport(reportDto);
@@ -110,15 +110,15 @@ public class ReportMapperTestSuite {
     public void shouldMapToReportList() {
         //Given
         List<ReportDto> reportDtos = new ArrayList<>();
-        ReportResultDto reportResultDto = new ReportResultDto(1L,
+        ReportEntryDto reportEntryDto = new ReportEntryDto(1L,
                 "testFilm",
                 1L,
                 "testCharacter",
                 1L,
                 "testPlanet");
-        reportDtos.add(new ReportDto(1L, "testCharacterCriteria", "testPlanetCriteria", reportResultDto));
-        reportDtos.add(new ReportDto(2L, "testCharacterCriteria", "testPlanetCriteria", reportResultDto));
-        reportDtos.add(new ReportDto(3L, "testCharacterCriteria", "testPlanetCriteria", reportResultDto));
+        reportDtos.add(new ReportDto(1L, "testCharacterCriteria", "testPlanetCriteria", reportEntryDto));
+        reportDtos.add(new ReportDto(2L, "testCharacterCriteria", "testPlanetCriteria", reportEntryDto));
+        reportDtos.add(new ReportDto(3L, "testCharacterCriteria", "testPlanetCriteria", reportEntryDto));
 
         //When
         List<Report> result = testee.mapToReportList(reportDtos);

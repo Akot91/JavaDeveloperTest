@@ -8,12 +8,12 @@ public class ReportDto {
 
     private String queryCriteriaPlanetName;
 
-    private ReportResultDto result;
+    private ReportEntryDto result;
 
     public ReportDto() {
     }
 
-    public ReportDto(Long id, String queryCriteriaCharacterPhrase, String queryCriteriaPlanetName, ReportResultDto reportResult) {
+    public ReportDto(Long id, String queryCriteriaCharacterPhrase, String queryCriteriaPlanetName, ReportEntryDto reportResult) {
         this.id = id;
         this.queryCriteriaCharacterPhrase = queryCriteriaCharacterPhrase;
         this.queryCriteriaPlanetName = queryCriteriaPlanetName;
@@ -32,7 +32,7 @@ public class ReportDto {
         return queryCriteriaPlanetName;
     }
 
-    public ReportResultDto getReportResult() {
+    public ReportEntryDto getReportResult() {
         return result;
     }
 }

@@ -31,8 +31,8 @@ public class ReportResult {
     @Column(name = "planet_name")
     private String planetName;
 
-    @OneToOne(mappedBy = "result")
-    private Report report;
+    //@OneToOne(mappedBy = "result")
+    //private Report report;
 
     public ReportResult() {
     }
