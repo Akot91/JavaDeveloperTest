@@ -1,9 +1,7 @@
-package com.softwareplanttest.test.domain;
+package com.softwareplanttest.test.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FilmDto {

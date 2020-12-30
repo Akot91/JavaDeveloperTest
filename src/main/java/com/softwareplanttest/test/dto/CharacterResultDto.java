@@ -1,4 +1,4 @@
-package com.softwareplanttest.test.domain;
+package com.softwareplanttest.test.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,5 +19,13 @@ public class CharacterResultDto {
 
     public List<CharacterDto> getCharacters() {
         return characters;
+    }
+
+    public int getCharactersSize() {
+        return characters.size();
+    }
+
+    public CharacterDto getCharacter(int index) {
+        return characters.get(index);
     }
 }

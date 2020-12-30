@@ -1,12 +1,12 @@
 package com.softwareplanttest.test.controller;
 
 import com.softwareplanttest.test.domain.Report;
-import com.softwareplanttest.test.domain.ReportDto;
-import com.softwareplanttest.test.domain.ReportResultDto;
+import com.softwareplanttest.test.dto.ReportDto;
+import com.softwareplanttest.test.dto.ReportResultDto;
 import com.softwareplanttest.test.mapper.ReportMapper;
 import com.softwareplanttest.test.model.ReportQuery;
 import com.softwareplanttest.test.domain.ReportResult;
-import com.softwareplanttest.test.service.DatabaseService;
+import com.softwareplanttest.test.service.ReportService;
 import com.softwareplanttest.test.service.ReportCreator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,14 +28,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(Controller.class)
-public class ControllerTestSuite {
+@WebMvcTest(ReportController.class)
+public class ReportControllerTestSuite {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private DatabaseService databaseService;
+    private ReportService reportService;
 
     @MockBean
     private ReportMapper reportMapper;
@@ -70,7 +70,7 @@ public class ControllerTestSuite {
 
         reportDtos.add(new ReportDto(1L, "testCharacterPharse", "testPlanetName",reportResultDto));
 
-        when(databaseService.getAllReports()).thenReturn(reports);
+        when(reportService.getAll()).thenReturn(reports);
         when(reportMapper.mapToReportDtoList(reports)).thenReturn(reportDtos);
         when(reportCreator.prepareReport(new ReportQuery("testCharacterPharse", "testPlanetName"))).thenReturn(reportResult);
 
@@ -112,7 +112,7 @@ public class ControllerTestSuite {
                 .build();
         ReportDto reportDto = new ReportDto(1L, "testCharacterPharse", "testPlanetName",reportResultDto);
 
-        when(databaseService.getReport(1L)).thenReturn(Optional.of(report));
+        when(reportService.get(1L)).thenReturn(Optional.of(report));
         when(reportMapper.mapToReportDto(report)).thenReturn(reportDto);
         when(reportCreator.prepareReport(new ReportQuery("testCharacterPharse", "testPlanetName"))).thenReturn(reportResult);
 

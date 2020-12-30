@@ -1,4 +1,4 @@
-package com.softwareplanttest.test.domain;
+package com.softwareplanttest.test.dto;
 
 public class ReportDto {
 

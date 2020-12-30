@@ -1,7 +1,10 @@
 package com.softwareplanttest.test.client;
 
 import com.softwareplanttest.test.config.ApiConfiguration;
-import com.softwareplanttest.test.domain.*;
+import com.softwareplanttest.test.dto.CharacterDto;
+import com.softwareplanttest.test.dto.CharacterResultDto;
+import com.softwareplanttest.test.dto.FilmDto;
+import com.softwareplanttest.test.dto.PlanetResultDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -14,15 +17,23 @@ import java.util.Optional;
 @Component
 public class SWAPIClient {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private static final String PEOPLE_PATH = "api/people";
+    private static final String PLANETS_PATH = "api/planets";
+
+    private final RestTemplate restTemplate;
+
+    private final ApiConfiguration apiConfiguration;
 
     @Autowired
-    private ApiConfiguration apiConfiguration;
+    public SWAPIClient(RestTemplate restTemplate, ApiConfiguration apiConfiguration) {
+        this.restTemplate = restTemplate;
+        this.apiConfiguration = apiConfiguration;
+    }
 
-    public CharacterResultDto getCharacterBySearch(String search) {
+    public CharacterResultDto getCharacterByName(String name) {
         try {
-            return Optional.ofNullable(restTemplate.getForObject(getCharacterBySearchUrl(search), CharacterResultDto.class)).orElseGet(CharacterResultDto::new);
+            return Optional.ofNullable(restTemplate.getForObject(getCharacterByNameUrl(name), CharacterResultDto.class))
+                    .orElseGet(CharacterResultDto::new);
         } catch (RestClientException e) {
             return new CharacterResultDto();
         }
@@ -30,15 +41,17 @@ public class SWAPIClient {
 
     public CharacterDto getCharacterByUrl(String forwardedUrl) {
         try {
-            return Optional.ofNullable(restTemplate.getForObject(getCharacterUrl(forwardedUrl), CharacterDto.class)).orElseGet(CharacterDto::new);
+            return Optional.ofNullable(restTemplate.getForObject(getCharacterUrl(forwardedUrl), CharacterDto.class))
+                    .orElseGet(CharacterDto::new);
         } catch (RestClientException e) {
             return new CharacterDto();
         }
     }
 
-    public PlanetResultDto getPlanetBySearch(String search) {
+    public PlanetResultDto getPlanetByName(String name) {
         try {
-            return Optional.ofNullable(restTemplate.getForObject(getPlanetUrl(search), PlanetResultDto.class)).orElseGet(PlanetResultDto::new);
+            return Optional.ofNullable(restTemplate.getForObject(getPlanetByNameUrl(name), PlanetResultDto.class))
+                    .orElseGet(PlanetResultDto::new);
         } catch (RestClientException e) {
             return new PlanetResultDto();
         }
@@ -46,7 +59,8 @@ public class SWAPIClient {
 
     public FilmDto getFilmByUrl(String forwardedUrl) {
         try {
-            return Optional.ofNullable(restTemplate.getForObject(getFilmUrl(forwardedUrl), FilmDto.class)).orElseGet(FilmDto::new);
+            return Optional.ofNullable(restTemplate.getForObject(getFilmUrl(forwardedUrl), FilmDto.class))
+                    .orElseGet(FilmDto::new);
         } catch (RestClientException e) {
             return new FilmDto();
         }
@@ -59,17 +73,17 @@ public class SWAPIClient {
                 .toUri();
     }
 
-    private URI getPlanetUrl(String search) {
-        return UriComponentsBuilder.fromHttpUrl(apiConfiguration.getPlanetsApiUrl())
-                .queryParam("search", search)
+    private URI getPlanetByNameUrl(String name) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfiguration.getSWAPIHost() + PLANETS_PATH)
+                .queryParam("search", name)
                 .build()
                 .encode()
                 .toUri();
     }
 
-    private URI getCharacterBySearchUrl(String search) {
-        return UriComponentsBuilder.fromHttpUrl(apiConfiguration.getPeopleApiUrl())
-                .queryParam("search", search)
+    private URI getCharacterByNameUrl(String name) {
+        return UriComponentsBuilder.fromHttpUrl(apiConfiguration.getSWAPIHost() + PEOPLE_PATH)
+                .queryParam("search", name)
                 .build()
                 .encode()
                 .toUri();

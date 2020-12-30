@@ -1,9 +1,10 @@
-package com.softwareplanttest.test.domain;
+package com.softwareplanttest.test.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CharacterDto {
@@ -35,5 +36,20 @@ public class CharacterDto {
 
     public List<String> getFilms() {
         return films;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CharacterDto that = (CharacterDto) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(url, that.url) &&
+                Objects.equals(films, that.films);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, url, films);
     }
 }
