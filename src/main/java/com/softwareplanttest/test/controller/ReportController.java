@@ -44,8 +44,7 @@ public class ReportController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{reportId}")
     public ReportDto get(@PathVariable Long reportId) {
-        return reportService.get(reportId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource"));
+        return reportService.get(reportId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource"));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{reportId}")
