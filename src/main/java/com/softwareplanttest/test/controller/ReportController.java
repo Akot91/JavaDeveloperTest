@@ -4,12 +4,11 @@ import com.softwareplanttest.test.dto.ReportDto;
 import com.softwareplanttest.test.model.ReportQuery;
 import com.softwareplanttest.test.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -30,11 +29,7 @@ public class ReportController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{reportId}")
     public void delete(@PathVariable Long reportId) {
-        try {
-            reportService.delete(reportId);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
-        }
+        reportService.delete(reportId);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -43,8 +38,8 @@ public class ReportController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{reportId}")
-    public ReportDto get(@PathVariable Long reportId) {
-        return reportService.get(reportId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource"));
+    public Optional<ReportDto> get(@PathVariable Long reportId) {
+        return reportService.get(reportId);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{reportId}")

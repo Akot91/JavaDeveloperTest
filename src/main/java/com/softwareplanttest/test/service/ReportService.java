@@ -3,10 +3,12 @@ package com.softwareplanttest.test.service;
 import com.softwareplanttest.test.domain.Report;
 import com.softwareplanttest.test.domain.ReportResult;
 import com.softwareplanttest.test.dto.ReportDto;
+import com.softwareplanttest.test.exception.ReportNotFoundException;
 import com.softwareplanttest.test.mapper.ReportMapper;
 import com.softwareplanttest.test.model.ReportQuery;
 import com.softwareplanttest.test.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +35,8 @@ public class ReportService {
     }
 
     public Optional<ReportDto> get(final long id) {
-        return Optional.of(reportMapper.mapToReportDto(reportRepository.findById(id).get()));
+        return Optional.ofNullable(reportMapper.mapToReportDto(reportRepository.findById(id)
+                .orElseThrow(() -> new ReportNotFoundException(id))));
     }
 
     public void save(final long reportId, final ReportQuery reportQuery) {
@@ -46,7 +49,11 @@ public class ReportService {
         reportRepository.deleteAll();
     }
 
-    public void delete(final Long id) {
-        reportRepository.deleteById(id);
+    public void delete(final long id) {
+        try {
+            reportRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ReportNotFoundException(id);
+        }
     }
 }
