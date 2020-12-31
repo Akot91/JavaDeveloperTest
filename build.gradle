@@ -4,6 +4,8 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'war'
+
 group = 'com.softwareplant.test'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -20,6 +22,11 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.3.RELEASE'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.3.3.RELEASE'
     compile group: 'com.h2database', name: 'h2', version: '1.4.200'
+}
+
+war {
+	enabled = true
+    archiveName 'softwareplantJavaDeveloperTest.war'
 }
 
 test {
